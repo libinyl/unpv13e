@@ -19,7 +19,7 @@ main(int argc, char **argv)
 	Bind(listenfd, (SA *) &servaddr, sizeof(servaddr));
 
 	Listen(listenfd, LISTENQ);
-
+	// 在循环fork之前注册信号
 	Signal(SIGCHLD, sig_chld);
 
 	for ( ; ; ) {

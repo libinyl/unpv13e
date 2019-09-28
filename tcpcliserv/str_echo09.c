@@ -9,6 +9,7 @@ str_echo(int sockfd)
 	struct result	result;
 
 	for ( ; ; ) {
+		// 如果客户端 close 连接,server 将会受到 FIN,read 返回 0
 		if ( (n = Readn(sockfd, &args, sizeof(args))) == 0)
 			return;		/* connection closed by other end */
 

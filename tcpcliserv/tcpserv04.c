@@ -25,7 +25,7 @@ main(int argc, char **argv)
 	for ( ; ; ) {
 		clilen = sizeof(cliaddr);
 		if ( (connfd = accept(listenfd, (SA *) &cliaddr, &clilen)) < 0) {
-			if (errno == EINTR)
+			if (errno == EINTR) // accept 时若被信号中断,
 				continue;		/* back to for() */
 			else
 				err_sys("accept error");

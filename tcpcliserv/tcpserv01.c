@@ -1,5 +1,7 @@
 #include	"unp.h"
 
+// 服务端编程
+
 int
 main(int argc, char **argv)
 {
@@ -8,19 +10,25 @@ main(int argc, char **argv)
 	socklen_t			clilen;
 	struct sockaddr_in	cliaddr, servaddr;
 
+	// 1. socket
 	listenfd = Socket(AF_INET, SOCK_STREAM, 0);
 
 	bzero(&servaddr, sizeof(servaddr));
 	servaddr.sin_family      = AF_INET;
 	servaddr.sin_addr.s_addr = htonl(INADDR_ANY);
-	servaddr.sin_port        = htons(SERV_PORT);
+	servaddr.sin_port        = htons(SERV_PORT);	// 9877端口
 
+	// 2. bind
 	Bind(listenfd, (SA *) &servaddr, sizeof(servaddr));
 
+	// 3. listen
+	// 把该套接字转换为监听套接字
 	Listen(listenfd, LISTENQ);
 
 	for ( ; ; ) {
 		clilen = sizeof(cliaddr);
+		//4. accept
+		// 阻塞直到连接
 		connfd = Accept(listenfd, (SA *) &cliaddr, &clilen);
 
 		if ( (childpid = Fork()) == 0) {	/* child process */
